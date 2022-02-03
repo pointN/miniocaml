@@ -1,0 +1,103 @@
+val timer : (unit -> 'a) -> unit = <fun>
+val test : string -> unit = <fun>
+test: let rec sum x = if x=0 then 0 else x+sum(x-1) in sum 100000
+---Interpreter---
+- : int = 5000050000
+time: 91.248 msec.
+-------CAM-------
+- : int = 5000050000
+time: 109.176 msec.
+-------ZAM-------
+- : int = 5000050000
+time: 120.217 msec.
+- : unit = ()
+test: let rec sum x = fun nowsum -> if x=0 then nowsum else sum (x-1) (nowsum+x) in sum 100000 0
+---Interpreter---
+- : int = 5000050000
+time: 61.271 msec.
+-------CAM-------
+- : int = 5000050000
+time: 159.516 msec.
+-------ZAM-------
+- : int = 5000050000
+time: 74.412 msec.
+- : unit = ()
+test: let rec makeary n = if n=0 then [] else let tl = makeary (n-1) in (50001-n)::(tl) in List.hd (makeary 50000)
+---Interpreter---
+- : int = 1
+time: 45.877 msec.
+-------CAM-------
+- : int = 1
+time: 72.792 msec.
+-------ZAM-------
+- : int = 1
+time: 91.204 msec.
+- : unit = ()
+test: let rec makeary ary = fun n -> if n=0 then ary else makeary (n::ary) (n-1) in List.hd (makeary [] 50000)
+---Interpreter---
+- : int = 1
+time: 32.798 msec.
+-------CAM-------
+- : int = 1
+time: 67.406 msec.
+-------ZAM-------
+- : int = 1
+time: 38.048 msec.
+- : unit = ()
+test: let rec fib x = if x<3 then 1 else fib (x-1) + fib (x-2) in fib 30
+---Interpreter---
+- : int = 832040
+time: 569.956 msec.
+-------CAM-------
+- : int = 832040
+time: 858.319 msec.
+-------ZAM-------
+- : int = 832040
+time: 930.055 msec.
+- : unit = ()
+test: let rec fib n = fun a -> fun b -> if n<3 then a+b else fib (n-1) b (a+b) in let rec many n = fun sum -> if n=0 then sum else many (n-1) (sum + (fib 30 0 1))
+ in many 1000 0
+---Interpreter---
+- : int = 832040000
+time: 22.036 msec.
+-------CAM-------
+- : int = 832040000
+time: 34.325 msec.
+-------ZAM-------
+- : int = 832040000
+time: 27.241 msec.
+- : unit = ()
+test: let rec collatz x = if x=1 then 0 else 1 + collatz (if x/2*2=x then x/2 else (3*x+1)) in
+ let rec collatzsearch n = if collatz n = 310 then 1 else 1 + collatzsearch (n+1) in collatzsearch 1
+---Interpreter---
+- : int = 34239
+time: 2781.165 msec.
+-------CAM-------
+- : int = 34239
+time: 3601.318 msec.
+-------ZAM-------
+- : int = 34239
+time: 3592.214 msec.
+- : unit = ()
+test: let rec collatz x = fun n -> if x=1 then n else collatz (if x/2*2=x then x/2 else (3*x+1)) (n+1) in let rec collatzsearch n = if collatz n 0 = 310 then n else collatzsearch (n+1) in collatzsearch 1
+---Interpreter---
+- : int = 34239
+time: 2963.504 msec.
+-------CAM-------
+- : int = 34239
+time: 4709.269 msec.
+-------ZAM-------
+- : int = 34239
+time: 4024.36 msec.
+- : unit = ()
+test: let rec ackermann m = fun n -> if m=0 then n+1 else if n=0 then ackermann (m-1) 1 else ackermann (m-1) (ackermann m (n-1)) in ackermann 3 8
+---Interpreter---
+- : int = 2045
+time: 1576.94 msec.
+-------CAM-------
+- : int = 2045
+time: 2938.987 msec.
+-------ZAM-------
+- : int = 2045
+time: 2653.621 msec.
+- : unit = ()

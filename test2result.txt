@@ -1,0 +1,131 @@
+val test : string -> unit = <fun>
+test: 1+1
+---Interpreter---
+- : int = 2
+-------CAM-------
+- : int = 2
+-------ZAM-------
+- : int = 2
+- : unit = ()
+test: 1+
+---Interpreter---
+parse error near characters 2-2
+-------CAM-------
+parse error near characters 2-2
+-------ZAM-------
+parse error near characters 2-2
+- : unit = ()
+test: Lst.hd [1;2;3]
+---Interpreter---
+unknown token . near characters 3-4
+-------CAM-------
+unknown token . near characters 3-4
+-------ZAM-------
+unknown token . near characters 3-4
+- : unit = ()
+test: let x = 1 in y
+---Interpreter---
+unbound variable: y
+-------CAM-------
+no matching variable in environment
+-------ZAM-------
+no matching variable in environment
+- : unit = ()
+test: 1+true
+---Interpreter---
+Type error
+-------CAM-------
+Type error
+-------ZAM-------
+Type error
+- : unit = ()
+test: (fun x -> x+1) true)
+---Interpreter---
+parse error near characters 19-20
+-------CAM-------
+parse error near characters 19-20
+-------ZAM-------
+parse error near characters 19-20
+- : unit = ()
+test: fun x -> if x then x else 10
+---Interpreter---
+Type error
+-------CAM-------
+Type error
+-------ZAM-------
+Type error
+- : unit = ()
+test: 1::1
+---Interpreter---
+Type error
+-------CAM-------
+Type error
+-------ZAM-------
+Type error
+- : unit = ()
+test: 1::(List.tl [false])
+---Interpreter---
+Type error
+-------CAM-------
+Type error
+-------ZAM-------
+Type error
+- : unit = ()
+test: let x = 1 in let y = 1 in x/(x-y)
+---Interpreter---
+Division by zero
+-------CAM-------
+Division by zero
+-------ZAM-------
+Division by zero
+- : unit = ()
+test: let f = fun x -> x + 1 in f=f
+---Interpreter---
+wrong value in Eq
+-------CAM-------
+functional value compared
+-------ZAM-------
+functional value compared
+- : unit = ()
+test: let f = fun x -> x+1 in let g = fun y -> y-1 in [f]=[g]
+---Interpreter---
+wrong value in Eq
+-------CAM-------
+functional value compared
+-------ZAM-------
+functional value compared
+- : unit = ()
+test: List.hd (List.hd [[]])
+---Interpreter---
+Hd failed
+-------CAM-------
+Hd failed: List is empty
+-------ZAM-------
+Hd failed: List is empty
+- : unit = ()
+test: List.tl []
+---Interpreter---
+Tl failed
+-------CAM-------
+Tl failed: List is empty
+-------ZAM-------
+Tl failed: List is empty
+- : unit = ()
+!!! run without type inference !!!
+test: 1+true
+---Interpreter---
+integer value expected
+-------CAM-------
+Add failed
+-------ZAM-------
+Add failed
+- : unit = ()
+!!! run without type inference !!!
+test: 1::[false]
+---Interpreter---
+[1; false]
+-------CAM-------
+[1; false]
+-------ZAM-------
+[1; false]
+- : unit = ()
